@@ -1,0 +1,148 @@
+/* =========================================================
+   Forms (contact + resume request) and the modal dialog.
+   Built from the same tokens as the cards and buttons.
+   ========================================================= */
+
+.contact-form-wrap {
+  max-width: 760px; margin: 52px auto 0; padding-top: 40px;
+  border-top: 1.5px dashed var(--color-border);
+  text-align: left;
+}
+.contact-form__title { font-family: var(--font-display); font-weight: 800; font-size: 22px; letter-spacing: -0.015em; text-align: center; }
+.contact-form__intro { margin: 6px auto 0; max-width: 520px; text-align: center; font-size: 14.5px; color: var(--color-text-muted); }
+.contact-form { margin-top: 28px; }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 20px; }
+.contact-form .field[data-field="subject"],
+.contact-form .field[data-field="message"],
+.contact-form .field[data-field="attachment"],
+.request-form .field[data-field="purpose"],
+.request-form .field[data-field="purposeDetail"],
+.request-form .field--check { grid-column: 1 / -1; }
+
+.field__top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 7px; }
+.field label { font-size: 13.5px; font-weight: 700; color: var(--color-text-soft); }
+.optional { font-weight: 500; color: var(--color-text-faint); }
+.field__count { font-size: 12px; color: var(--color-text-faint); font-variant-numeric: tabular-nums; }
+.field__count.is-over { color: var(--color-red); }
+.field__hint { margin-top: 6px; font-size: 12.5px; color: var(--color-text-faint); }
+.field__error { min-height: 0; margin-top: 6px; font-size: 12.5px; font-weight: 500; color: #ff9d8f; }
+.field__error:empty { display: none; }
+
+.field input:not([type='checkbox']):not([type='file']),
+.field textarea,
+.field select {
+  width: 100%; min-height: var(--control-h);
+  padding: 12px 15px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--color-border);
+  background: var(--color-inset);
+  color: var(--color-text);
+  font: inherit; font-size: 15px; line-height: 1.45;
+  transition: border-color var(--dur-fast), box-shadow var(--dur-fast), background var(--dur-fast);
+}
+.field textarea { resize: vertical; min-height: 128px; }
+.field select {
+  appearance: none; cursor: pointer; padding-right: 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239a96ad' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 15px center;
+}
+.field select option { background: var(--color-surface); color: var(--color-text); }
+.field ::placeholder { color: var(--color-text-faint); }
+.field input:hover, .field textarea:hover, .field select:hover { border-color: var(--color-border-strong); }
+.field input:focus, .field textarea:focus, .field select:focus {
+  outline: none; border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(150, 212, 60, .22);
+}
+.field.has-error input, .field.has-error textarea, .field.has-error select, .field.has-error .file-drop { border-color: var(--color-red); }
+.field.has-error input:focus, .field.has-error textarea:focus { box-shadow: 0 0 0 3px rgba(230, 95, 77, .25); }
+
+/* File picker */
+.file-drop {
+  position: relative; display: flex; align-items: center; gap: 12px;
+  min-height: var(--control-h); padding: 8px 14px;
+  border: 1.5px dashed var(--color-border-strong); border-radius: var(--radius-md);
+  background: var(--color-inset); cursor: pointer;
+  font-size: 14px !important; font-weight: 500 !important; color: var(--color-text-muted) !important;
+  transition: border-color var(--dur-fast), background var(--dur-fast);
+}
+.file-drop:hover { border-color: var(--color-primary); }
+.file-drop:focus-within { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(150, 212, 60, .22); }
+.file-drop input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+.file-drop__icon { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--color-yellow); color: #1a1205; flex: none; }
+.file-drop__text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file-drop__clear {
+  position: relative; z-index: 2; width: 30px; height: 30px; border-radius: 50%;
+  font-size: 18px; line-height: 1; color: var(--color-text-soft); border: 1px solid var(--color-border-strong);
+}
+.file-drop__clear:hover { color: var(--color-red); border-color: var(--color-red); }
+
+/* Checkbox */
+.check { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; font-weight: 500 !important; font-size: 13.5px !important; line-height: 1.55; color: var(--color-text-muted) !important; }
+.check input {
+  appearance: none; flex: none; width: 20px; height: 20px; margin-top: 1px;
+  border-radius: 6px; border: 1.5px solid var(--color-border-strong); background: var(--color-inset);
+  display: grid; place-items: center; cursor: pointer;
+}
+.check input:checked { background: var(--color-primary); border-color: var(--color-primary); }
+.check input:checked::after { content: ''; width: 5px; height: 10px; border: solid var(--color-primary-ink); border-width: 0 2.5px 2.5px 0; transform: translateY(-1px) rotate(45deg); }
+.check input:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+.field--check.has-error .check input { border-color: var(--color-red); }
+
+/* Honeypot — off-screen, not display:none, so naive bots still fill it */
+.hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+
+.contact-form__actions { display: flex; align-items: center; gap: 18px; margin-top: 24px; flex-wrap: wrap; }
+.contact-form__note { font-size: 12.5px; color: var(--color-text-faint); }
+.btn[aria-busy='true'] .btn__label::after { content: ''; display: inline-block; width: 12px; height: 12px; margin-left: 8px; vertical-align: -1px; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent; animation: spin .7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.form-status {
+  margin-top: 18px; padding: 13px 16px; border-radius: var(--radius-md);
+  font-size: 14px; line-height: 1.5; text-align: left;
+  border: 1.5px solid transparent;
+}
+.form-status:focus { outline: none; }
+.form-status a { text-decoration: underline; }
+.form-status--success { background: rgba(150, 212, 60, .1); border-color: rgba(150, 212, 60, .45); color: #d6f2ad; }
+.form-status--error { background: rgba(230, 95, 77, .1); border-color: rgba(230, 95, 77, .5); color: #ffc7bf; }
+
+/* ---------- Modal ---------- */
+.modal {
+  width: min(620px, calc(100vw - 24px)); max-height: calc(100dvh - 32px);
+  padding: 0; border: 0; background: transparent; color: var(--color-text);
+  overflow: visible;
+}
+.modal::backdrop { background: rgba(6, 4, 16, .72); backdrop-filter: blur(3px); }
+.modal[open] { animation: modal-in 320ms var(--ease-out) both; }
+@keyframes modal-in { from { opacity: 0; transform: translateY(16px) scale(.98); } }
+.modal__panel {
+  position: relative; max-height: calc(100dvh - 32px); overflow-y: auto;
+  padding: 40px clamp(18px, 4vw, 34px) 30px;
+  background: var(--color-surface);
+  border: 1.5px dashed var(--color-border-strong);
+  border-radius: 26px;
+  box-shadow: var(--shadow-frame);
+}
+.tape--modal { left: 50%; top: 10px; transform: translateX(-50%) rotate(-3deg); width: 60px; height: 18px; }
+.modal__close {
+  position: absolute; right: 14px; top: 14px; width: 38px; height: 38px; border-radius: 50%;
+  font-size: 22px; line-height: 1; color: var(--color-text-soft); border: 1.5px solid var(--color-border);
+}
+.modal__close:hover { color: var(--color-text); border-color: var(--color-text-muted); }
+.modal__title { margin-top: 8px; font-family: var(--font-display); font-weight: 800; font-size: clamp(22px, 2.4vw, 28px); line-height: 1.15; letter-spacing: -0.02em; }
+.modal__desc { margin-top: 8px; font-size: 14.5px; color: var(--color-text-muted); }
+.modal .request-form { margin-top: 22px; }
+.modal__actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 22px; flex-wrap: wrap; }
+.modal__done { position: relative; text-align: left; padding: 6px 0; }
+.modal__done:focus { outline: none; }
+.modal__spark { position: absolute; right: 0; top: 0; }
+.modal__ref { margin-top: 14px; font-size: 13px; color: var(--color-text-faint); }
+.modal__ref code { font-size: 12.5px; color: var(--color-text-soft); word-break: break-all; }
+
+@media (max-width: 600px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .contact-form-wrap { margin-top: 40px; padding-top: 32px; }
+  .contact-form__actions .btn { width: 100%; }
+  .modal__actions .btn { flex: 1; }
+}

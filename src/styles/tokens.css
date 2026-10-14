@@ -1,0 +1,81 @@
+/* Design tokens — sampled from the reference screenshot (JPEG, so ± a few values). */
+:root {
+  /* Color */
+  --color-background: #0c091c;
+  --color-surface: #17132a;
+  --color-surface-elevated: #1d1934;
+  --color-inset: #0b0919;
+  --color-pill: #0f0c21;
+  --color-text: #f4f2fb;
+  --color-text-soft: #d9d6e6;
+  --color-text-muted: #9a96ad;
+  --color-text-faint: #6d6981;
+  --color-border: rgba(162, 152, 205, 0.22);
+  --color-border-strong: rgba(162, 152, 205, 0.36);
+  --color-dot-pattern: rgba(150, 140, 200, 0.16);
+
+  --color-primary: #96d43c;      /* lime green */
+  --color-primary-ink: #10140a;
+  --color-purple: #8c3fd2;
+  --color-cyan: #5ec2dc;
+  --color-yellow: #efb43e;
+  --color-orange: #f08a3c;
+  --color-red: #e65f4d;
+  --color-pink: #ef6f9a;
+  --color-glow: rgba(120, 50, 190, 0.32);
+
+  /* Typography */
+  --font-display: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', 'Archivo', system-ui, sans-serif;
+  --font-body: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --fs-hero: clamp(36px, 6.4vw, 86px);
+  --fs-h2: clamp(27px, 2.9vw, 38px);
+  --fs-h3: clamp(16px, 1.3vw, 18px);
+  --fs-about: clamp(27px, 2.7vw, 36px);
+  --fs-contact: clamp(32px, 4.3vw, 56px);
+  --fs-body: 16px;
+  --fs-small: 14px;
+  --fs-xs: 12.5px;
+  --fs-label: 12px;
+
+  --lh-tight: 1.04;
+  --lh-heading: 1.12;
+  --lh-body: 1.6;
+  --ls-label: 0.16em;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --container: 1120px;
+  --gutter: clamp(16px, 4.5vw, 56px);
+  /* Vertical rhythm between sections */
+  --section-y: clamp(64px, 7.5vw, 104px);
+  --section-y-sm: clamp(48px, 5.5vw, 76px);
+  --control-h: 50px;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  /* Shadow */
+  --shadow-card: 0 14px 30px rgba(0, 0, 0, 0.45);
+  --shadow-frame: 0 24px 50px rgba(0, 0, 0, 0.55);
+  --shadow-btn: 0 6px 0 rgba(0, 0, 0, 0.35);
+
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur-fast: 160ms;
+  --dur-base: 260ms;
+  --dur-enter: 720ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}

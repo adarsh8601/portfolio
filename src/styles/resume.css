@@ -1,0 +1,106 @@
+/* =========================================================
+   Resume page — same tokens, cards and decorations as the
+   home page, plus a print stylesheet for "Save as PDF".
+   ========================================================= */
+
+.resume-intro { padding: 136px 0 var(--section-y-sm); overflow: hidden; }
+.dots--resume { right: 60px; top: 120px; width: 260px; height: 180px; }
+.resume-intro__spark { position: absolute; right: calc(var(--gutter) + 20px); top: -20px; }
+.resume-intro__title { font-size: clamp(34px, 4.4vw, 56px); }
+.resume-intro__lead { margin-top: 18px; max-width: 560px; font-size: 16px; color: var(--color-text-muted); }
+
+.resume-options { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 44px; }
+.option-card { padding: 28px 26px 26px; display: flex; flex-direction: column; }
+.option-card--a { transform: rotate(-0.6deg); }
+.option-card--b { transform: rotate(0.5deg); }
+.option-card:hover { transform: rotate(0) translateY(-4px); border-color: var(--color-border-strong); }
+.option-card__tag {
+  position: absolute; right: 22px; top: 22px;
+  font-family: var(--font-display); font-size: 11.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+.option-card h2 { margin-top: 16px; font-family: var(--font-display); font-weight: 800; font-size: 21px; letter-spacing: -0.01em; }
+.option-card p { margin-top: 8px; font-size: 14.5px; color: var(--color-text-muted); }
+.option-card .btn-row { margin-top: auto; padding-top: 22px; gap: 12px; }
+.option-card__note { margin-top: 14px !important; font-size: 12.5px !important; color: var(--color-text-faint) !important; }
+
+/* ---- Online resume document ---- */
+.resume-doc-wrap { padding: 20px 0 var(--section-y); }
+.resume-doc {
+  position: relative; max-width: 880px; margin: 0 auto;
+  padding: clamp(28px, 5vw, 56px) clamp(20px, 5vw, 60px);
+  background: var(--color-surface);
+  border: 1.5px dashed var(--color-border);
+  border-radius: 28px;
+  box-shadow: var(--shadow-frame);
+}
+.tape--doc-left { left: 40px; top: -11px; transform: rotate(-4deg); }
+.tape--doc-right { right: 40px; top: -11px; transform: rotate(4deg); }
+.rd-header { display: flex; justify-content: space-between; gap: 24px; align-items: flex-end; padding-bottom: 22px; border-bottom: 1.5px dashed var(--color-border); }
+.rd-name { font-family: var(--font-display); font-weight: 800; font-size: clamp(28px, 3.4vw, 38px); letter-spacing: -0.02em; line-height: 1.1; }
+.rd-headline { margin-top: 6px; font-family: var(--font-display); font-weight: 600; font-size: 16px; color: var(--color-primary); }
+.rd-links { display: grid; gap: 6px; font-size: 13.5px; color: var(--color-text-soft); }
+.rd-links li { display: flex; align-items: center; gap: 8px; }
+.rd-links svg { color: var(--color-text-muted); width: 14px; height: 14px; flex: none; }
+.rd-links a:hover { color: var(--color-primary); }
+.rd-section { margin-top: 28px; }
+.rd-section h3 {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-display); font-size: 12px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--color-primary);
+}
+.rd-section h3::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.rd-section > p { margin-top: 10px; font-size: 15px; line-height: 1.7; color: var(--color-text-soft); }
+.rd-item { margin-top: 14px; }
+.rd-item__head { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; }
+.rd-item__head strong { font-family: var(--font-display); font-weight: 700; font-size: 16px; }
+.rd-item__head span { flex: none; font-size: 12.5px; font-weight: 700; letter-spacing: .06em; color: var(--color-text-muted); text-transform: uppercase; }
+.rd-meta { margin-top: 2px; font-size: 14px; color: var(--color-text-muted); }
+.rd-desc { margin-top: 4px; font-size: 14.5px; line-height: 1.6; color: var(--color-text-soft); }
+.rd-item__head a:hover { color: var(--color-primary); }
+.rd-availability { margin-top: 4px; font-size: 13px; color: var(--color-text-muted); }
+.rd-item ul, .rd-list { margin-top: 8px; padding-left: 18px; list-style: disc; font-size: 14.5px; color: var(--color-text-soft); }
+.rd-list li + li { margin-top: 6px; }
+.rd-skills { display: grid; grid-template-columns: max-content 1fr; gap: 8px 22px; margin-top: 12px; font-size: 14.5px; }
+.rd-skills dt { font-weight: 700; color: var(--color-text); }
+.rd-skills dd { color: var(--color-text-soft); }
+.rd-footnote { margin-top: 32px; padding-top: 16px; border-top: 1.5px dashed var(--color-border); font-size: 12.5px; color: var(--color-text-faint); }
+.resume-doc__actions { margin-top: 30px; gap: 14px; }
+
+@media (max-width: 760px) {
+  .resume-options { grid-template-columns: 1fr; }
+  .rd-header { flex-direction: column; align-items: flex-start; }
+  .rd-item__head { flex-direction: column; gap: 2px; }
+  .rd-skills { grid-template-columns: 1fr; gap: 2px; }
+  .rd-skills dd { margin-bottom: 8px; }
+}
+
+/* ---- Print / Save as PDF: only the resume document, ink-friendly ---- */
+@media print {
+  @page { size: A4; margin: 14mm 14mm 16mm; }
+  html, body { background: #fff !important; color: #111 !important; }
+  .site-header, .site-footer, .skip-link, .resume-intro, .resume-doc__actions, .modal,
+  .tape, .deco, .dots, .hero__glow { display: none !important; }
+  .resume-doc-wrap { padding: 0 !important; }
+  .container { max-width: none; padding: 0; }
+  .resume-doc { max-width: none; padding: 0; border: 0; box-shadow: none; background: none; border-radius: 0; }
+  .rd-header, .rd-footnote { border-color: #bbb; }
+  .rd-name, .rd-item__head strong, .rd-skills dt { color: #111; }
+  .rd-headline, .rd-section h3 { color: #3d6b0f; }
+  .rd-section > p, .rd-skills dd, .rd-item ul, .rd-list, .rd-links { color: #222; }
+  .rd-meta, .rd-item__head span, .rd-footnote, .rd-links svg { color: #555; }
+  .rd-section { margin-top: 14px; }
+  .rd-section h3 { font-size: 10px; }
+  .rd-name { font-size: 26px; }
+  .rd-headline { font-size: 13px; }
+  .rd-header { padding-bottom: 12px; }
+  .rd-section > p, .rd-skills, .rd-list, .rd-item ul { font-size: 11.5px; line-height: 1.5; }
+  .rd-item { margin-top: 8px; }
+  .rd-item__head strong { font-size: 12.5px; }
+  .rd-meta, .rd-links, .rd-item__head span, .rd-availability { font-size: 10.5px; }
+  .rd-desc { font-size: 11px; line-height: 1.45; color: #222; }
+  .rd-skills { gap: 3px 16px; margin-top: 8px; }
+  .rd-footnote { margin-top: 16px; padding-top: 8px; font-size: 9.5px; }
+  .rd-item { break-inside: avoid; }
+  a { color: inherit !important; text-decoration: none; }
+  * { animation: none !important; transition: none !important; }
+}

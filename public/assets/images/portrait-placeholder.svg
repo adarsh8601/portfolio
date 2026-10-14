@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 560" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfdcec"/><stop offset="1" stop-color="#e3e6e4"/></linearGradient>
+  </defs>
+  <rect width="440" height="560" fill="url(#sky)"/>
+  <g fill="#9fb2c6" opacity=".8">
+    <rect x="18" y="120" width="34" height="240"/><rect x="58" y="90" width="44" height="270"/><rect x="108" y="150" width="30" height="210"/>
+    <rect x="300" y="130" width="40" height="230"/><rect x="346" y="100" width="30" height="260"/><rect x="380" y="160" width="46" height="200"/>
+  </g>
+  <rect x="0" y="330" width="440" height="230" fill="#8ea38a" opacity=".45"/>
+  <!-- generic silhouette (placeholder — replace with your photo) -->
+  <g fill="#2a3047">
+    <circle cx="220" cy="210" r="70"/>
+    <path d="M70 560 C 80 380, 150 330, 220 330 C 290 330, 360 380, 370 560 Z"/>
+  </g>
+  <path d="M205 330 L220 420 L235 330 Z" fill="#e9ecef"/>
+  <path d="M214 340 L220 430 L226 340 Z" fill="#8c2433"/>
+  <rect x="140" y="505" width="160" height="34" rx="17" fill="#0c091c" opacity=".75"/>
+  <text x="220" y="527" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#f4f2fb">Your photo here</text>
+</svg>

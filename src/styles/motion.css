@@ -1,0 +1,67 @@
+/* =========================================================
+   Motion — transform/opacity only (no layout shift), short
+   entrances, slow ambient loops that pause off-screen.
+   prefers-reduced-motion collapses everything (see base.css).
+   ========================================================= */
+
+/* ---- Hero text entrance ---- */
+.reveal { animation: fade-up var(--dur-enter) var(--ease-out) both; animation-delay: var(--d, 0ms); }
+.hero__underline { animation: draw 900ms var(--ease-out) 520ms both; }
+
+@keyframes fade-up { from { opacity: 0; transform: translateY(14px); } }
+@keyframes draw { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+
+/* ---- Scroll reveal (only when JS runs, so content never stays hidden) ---- */
+.js .reveal-up {
+  opacity: 0; translate: 0 34px; scale: .97;
+  transition-property: opacity, translate, scale, transform, border-color, box-shadow;
+  transition-duration: 700ms, 800ms, 800ms, 420ms, 260ms, 260ms;
+  transition-timing-function: var(--ease-out);
+  transition-delay: var(--stagger, 0ms), var(--stagger, 0ms), var(--stagger, 0ms), 0ms, 0ms, 0ms;
+}
+.js .reveal-up.is-visible { opacity: 1; translate: 0 0; scale: 1; }
+.js .cert.reveal-up { translate: -24px 0; }
+.js .cert.reveal-up.is-visible { translate: 0 0; }
+
+/* ---- Portrait: entrance → gentle float → pointer tilt ---- */
+.hero__media { animation: portrait-in 1000ms var(--ease-out) 220ms both; }
+@keyframes portrait-in { from { opacity: 0; transform: translateY(26px) scale(.97); } }
+
+.portrait-float { animation: float 7s ease-in-out 1.3s infinite; will-change: transform; }
+.portrait-float--slow { animation-duration: 9s; animation-delay: 0s; }
+@keyframes float { 50% { transform: translateY(-8px); } }
+
+.tilt {
+  transform: perspective(1000px) rotate(var(--rot, 0deg)) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 700ms var(--ease-out), box-shadow var(--dur-base) var(--ease);
+  transform-style: preserve-3d;
+}
+.tilt.is-tilting { transition: transform 140ms linear, box-shadow var(--dur-base) var(--ease); }
+.tilt .parallax {
+  transform: scale(1.06) translate(var(--px, 0px), var(--py, 0px));
+  transition: transform 700ms var(--ease-out);
+}
+.tilt.is-tilting .parallax { transition: transform 140ms linear; }
+.tilt:hover { box-shadow: 0 30px 60px rgba(0, 0, 0, .6), 0 0 0 1px rgba(150, 212, 60, .18); }
+
+/* ---- Decorations ---- */
+.sway { animation: sway 6s ease-in-out 1.6s infinite; transform-origin: 50% 0; }
+@keyframes sway {
+  0%, 100% { transform: rotate(var(--sticker-rot, 0deg)); }
+  50% { transform: rotate(calc(var(--sticker-rot, 0deg) - 3deg)) translateY(-2px); }
+}
+.twinkle { animation: twinkle 4.5s ease-in-out infinite; }
+.twinkle--slow { animation-duration: 6.5s; animation-delay: 1.2s; }
+@keyframes twinkle { 50% { transform: scale(.82) rotate(12deg); opacity: .7; } }
+
+.scroll-cue svg { animation: bob 2.2s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(4px); } }
+
+/* Stop ambient loops while their section is off-screen (set by JS). */
+.is-paused .portrait-float,
+.is-paused .twinkle,
+.is-paused .sway,
+.is-paused .scroll-cue svg { animation-play-state: paused; }
+
+/* Touch screens: keep the float, skip hover-only lift. */
+@media (hover: none) { .tilt:hover { box-shadow: var(--shadow-frame); } }

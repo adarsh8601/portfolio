@@ -31,10 +31,10 @@ export async function inspectAttachment(file) {
   const parts = rawName.split('.');
   const ext = parts.length > 1 ? parts.pop().toLowerCase() : '';
   if (!ATTACHMENT_TYPES[ext]) return { ok: false, error: 'Unsupported file type. Allowed: PDF, DOC, DOCX, TXT, PNG, JPG.' };
-  if (file.size > LIMITS.attachmentBytes) return { ok: false, error: 'File is too large (maximum 5 MB).' };
+  if (file.size > LIMITS.attachmentBytes) return { ok: false, error: 'File is too large (maximum 4 MB).' };
   const content = Buffer.from(await file.arrayBuffer());
   if (content.length === 0) return { ok: false, error: 'The attached file is empty.' };
-  if (content.length > LIMITS.attachmentBytes) return { ok: false, error: 'File is too large (maximum 5 MB).' };
+  if (content.length > LIMITS.attachmentBytes) return { ok: false, error: 'File is too large (maximum 4 MB).' };
   if (!SNIFF[ext](content)) return { ok: false, error: 'The file contents do not match its extension.' };
   // Normalise the name: keep it short and free of path or control characters.
   const base = parts.join('.').replace(/[^\w.\- ]+/g, '_').slice(0, 80) || 'attachment';

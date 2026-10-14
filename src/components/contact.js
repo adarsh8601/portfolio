@@ -46,7 +46,7 @@ export function Contact() {
                 <span class="file-drop__icon" aria-hidden="true">${icons.folder}</span>
                 <span class="file-drop__text">Choose a file</span>
                 <button type="button" class="file-drop__clear" hidden aria-label="Remove attachment">×</button>
-              </label>`, { hint: 'PDF, DOC, DOCX, TXT, PNG or JPG · max 5 MB' })}
+              </label>`, { hint: 'PDF, DOC, DOCX, TXT, PNG or JPG · max 4 MB' })}
           </div>
           <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off" /></label></div>
           <div class="contact-form__actions">

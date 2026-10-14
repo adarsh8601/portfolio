@@ -11,8 +11,9 @@
     "start": "NODE_ENV=production node server/node.js",
     "preview": "vite preview",
     "lint": "eslint .",
-    "test": "node --test tests/api.test.js",
-    "check": "npm run lint && npm test && npm run build"
+    "test": "node --test tests/api.test.js tests/vercel.test.js",
+    "check": "npm run lint && npm test && npm run build",
+    "upload-resume": "node scripts/upload-resume.js"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

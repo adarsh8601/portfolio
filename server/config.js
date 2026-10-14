@@ -35,6 +35,9 @@ export function loadConfig(env = process.env) {
     },
 
     resumePdfPath: path.resolve(root, env.RESUME_PDF_PATH || 'server/private/resume.pdf'),
+    // Upstash Redis (REST) — used for requests + the private PDF on serverless hosts like Vercel.
+    upstash: { url: (env.UPSTASH_REDIS_REST_URL || '').replace(/\/$/, ''), token: env.UPSTASH_REDIS_REST_TOKEN || '' },
+    serverless: Boolean(env.VERCEL),
     dataDir: path.resolve(root, env.DATA_DIR || 'data'),
     distDir: path.resolve(root, 'dist'),
 
@@ -59,6 +62,9 @@ export function checkConfig(cfg) {
   }
   if ((p === 'resend' || p === 'smtp') && !cfg.mailFrom) problems.push('MAIL_FROM is required.');
   if (!['resend', 'smtp', 'console', 'memory'].includes(p)) problems.push(`Unknown MAIL_PROVIDER "${p}".`);
+  if (cfg.serverless && (!cfg.upstash.url || !cfg.upstash.token)) {
+    problems.push('UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN are required on Vercel (there is no persistent disk).');
+  }
   if (cfg.env === 'production' && (p === 'console' || p === 'memory')) {
     problems.push('MAIL_PROVIDER=console only prints emails to the log; configure resend or smtp for production.');
   }

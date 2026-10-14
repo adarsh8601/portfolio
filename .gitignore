@@ -3,7 +3,7 @@ dist/
 .env
 .env.*
 !.env.example
-data/
+/data/
 server/private/*
 !server/private/.gitkeep
 *.log

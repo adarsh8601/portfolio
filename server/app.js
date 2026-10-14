@@ -36,7 +36,15 @@ const MIN = 60_000;
  * @param {() => number} [deps.now]
  * @param {(c) => string} [deps.clientIp]
  */
-export function createApp({ config, mailer, store, now = Date.now, clientIp = () => 'unknown' }) {
+export function createApp({
+  config,
+  mailer,
+  store,
+  now = Date.now,
+  clientIp = () => 'unknown',
+  // Returns the PDF bytes (Buffer) or throws. Default: read from a private file on disk.
+  loadResume = () => fs.readFile(config.resumePdfPath),
+}) {
   const app = new Hono();
   const limiter = createRateLimiter();
   const limited = (c, name, limit, windowMs) => !limiter.hit(`${name}:${clientIp(c)}`, limit, windowMs, now());
@@ -57,7 +65,7 @@ export function createApp({ config, mailer, store, now = Date.now, clientIp = ()
   /* ------------------------------ Contact ------------------------------ */
   app.post(
     '/api/contact',
-    bodyLimit({ maxSize: LIMITS.attachmentBytes + 256 * 1024, onError: (c) => json(c, 413, { ok: false, error: 'File is too large (maximum 5 MB).' }) }),
+    bodyLimit({ maxSize: LIMITS.attachmentBytes + 256 * 1024, onError: (c) => json(c, 413, { ok: false, error: 'File is too large (maximum 4 MB).' }) }),
     async (c) => {
       if (limited(c, 'contact', 5, 10 * MIN)) return json(c, 429, { ok: false, error: 'Too many messages. Please try again in a few minutes.' });
 
@@ -218,9 +226,9 @@ export function createApp({ config, mailer, store, now = Date.now, clientIp = ()
     }
     let pdf;
     try {
-      pdf = await fs.readFile(config.resumePdfPath);
+      pdf = await loadResume();
     } catch {
-      console.error('[resume] PDF missing at', config.resumePdfPath);
+      console.error('[resume] PDF not available (file or storage):', config.resumePdfPath);
       return html(c, 503, messagePage('Temporarily unavailable', 'The resume file is not available right now. Please try again later.'));
     }
     await store.update(rec.id, (r) => {

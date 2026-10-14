@@ -11,7 +11,7 @@ export const LIMITS = {
   role: { min: 2, max: 100 },
   company: { max: 120 },
   purposeDetail: { min: 10, max: 600 },
-  attachmentBytes: 5 * 1024 * 1024,
+  attachmentBytes: 4 * 1024 * 1024, // Vercel functions accept bodies up to 4.5 MB
   // Bot check: a human needs at least this long to fill the form.
   minFillMs: 2500,
 };
@@ -64,7 +64,7 @@ export function validateAttachmentMeta(file) {
   if (!ATTACHMENT_TYPES[ext] || (file.name || '').split('.').length < 2) {
     return 'Unsupported file type. Allowed: PDF, DOC, DOCX, TXT, PNG, JPG.';
   }
-  if (file.size > LIMITS.attachmentBytes) return 'File is too large (maximum 5 MB).';
+  if (file.size > LIMITS.attachmentBytes) return 'File is too large (maximum 4 MB).';
   return null;
 }
 

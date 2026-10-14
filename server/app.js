@@ -44,6 +44,9 @@ export function createApp({
   clientIp = () => 'unknown',
   // Returns the PDF bytes (Buffer) or throws. Default: read from a private file on disk.
   loadResume = () => fs.readFile(config.resumePdfPath),
+  // Per-feature configuration problems (see featureProblems). A feature with
+  // problems answers 503 instead of running half-configured; others keep working.
+  problems = { mail: [], resume: [] },
 }) {
   const app = new Hono();
   const limiter = createRateLimiter();
@@ -60,7 +63,24 @@ export function createApp({
     return json(c, 500, { ok: false, error: 'Something went wrong on our side. Please try again later.' });
   });
 
-  app.get('/api/health', (c) => json(c, 200, { ok: true }));
+  const contactReady = problems.mail.length === 0;
+  const resumeReady = contactReady && problems.resume.length === 0;
+  const notConfigured = (c, feature) =>
+    json(c, 503, { ok: false, error: `The ${feature} service is not configured yet. Please try again later.` });
+
+  // Readiness only (booleans + variable names, never values) — handy to check a deployment.
+  app.get('/api/health', (c) =>
+    json(c, 200, {
+      ok: true,
+      contact: contactReady,
+      resume: resumeReady,
+      missing: [...problems.mail, ...problems.resume],
+      // Which variable the email link address came from (a name, not a value).
+      linkSource: config.siteUrlSource || null,
+    })
+  );
+  app.use('/api/contact', async (c, next) => (contactReady ? next() : notConfigured(c, 'message')));
+  app.use('/api/resume/*', async (c, next) => (resumeReady ? next() : notConfigured(c, 'resume request')));
 
   /* ------------------------------ Contact ------------------------------ */
   app.post(

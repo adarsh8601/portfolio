@@ -7,7 +7,7 @@ import path from 'node:path';
 import { serve } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
 import { getConnInfo } from '@hono/node-server/conninfo';
-import { loadConfig, checkConfig } from './config.js';
+import { loadConfig, checkConfig, featureProblems } from './config.js';
 import { createApp } from './app.js';
 import { createMailer } from './lib/mailer.js';
 import { createFileStore } from './lib/store.js';
@@ -43,6 +43,8 @@ const clientIp = (c) => {
 
 const app = createApp({
   config,
+  // In development a feature with missing settings answers 503 instead of failing mid-request.
+  problems: featureProblems(config),
   mailer: createMailer(config),
   store: createFileStore(config.dataDir, { retentionDays: config.retentionDays }),
   clientIp,

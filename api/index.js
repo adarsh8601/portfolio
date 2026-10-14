@@ -4,29 +4,34 @@
  * Storage + the private resume PDF live in Upstash Redis (no disk on Vercel).
  */
 import { handle } from 'hono/vercel';
-import { Hono } from 'hono';
-import { checkConfig, loadConfig } from '../server/config.js';
+import { featureProblems, loadConfig } from '../server/config.js';
 import { createApp } from '../server/app.js';
 import { createMailer } from '../server/lib/mailer.js';
 import { createUpstashStore, upstashClient, upstashResumeLoader } from '../server/lib/upstash.js';
 
+// Placeholder used when Upstash isn't configured; the resume routes are disabled
+// (503) in that case, so this is never reached by a request.
+const unavailable = () => {
+  throw new Error('Upstash is not configured');
+};
+
 function build() {
   const config = loadConfig();
-  const problems = checkConfig(config);
-  if (problems.length) {
-    console.error(`[api] configuration problems:\n  - ${problems.join('\n  - ')}`);
-    const broken = new Hono();
-    broken.all('*', (c) =>
-      c.json({ ok: false, error: 'The service is not configured yet. Please try again later.' }, 503)
-    );
-    return broken;
-  }
-  const cmd = upstashClient(config.upstash);
+  const problems = featureProblems(config);
+  const all = [...problems.mail, ...problems.resume];
+  // Logged to Vercel → Logs: names of missing settings only, never their values.
+  if (all.length) console.error(`[api] configuration problems:\n  - ${all.join('\n  - ')}`);
+
+  const hasUpstash = Boolean(config.upstash.url && config.upstash.token);
+  const cmd = hasUpstash ? upstashClient(config.upstash) : null;
   return createApp({
     config,
+    problems,
     mailer: createMailer(config),
-    store: createUpstashStore(cmd, { retentionDays: config.retentionDays }),
-    loadResume: upstashResumeLoader(cmd),
+    store: cmd
+      ? createUpstashStore(cmd, { retentionDays: config.retentionDays })
+      : { create: unavailable, get: unavailable, update: unavailable, remove: unavailable },
+    loadResume: cmd ? upstashResumeLoader(cmd) : unavailable,
     clientIp: (c) => (c.req.header('x-forwarded-for') || '').split(',')[0].trim() || 'unknown',
   });
 }

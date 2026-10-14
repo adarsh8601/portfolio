@@ -17,7 +17,7 @@ approval-gated resume download, built with vanilla JavaScript, Vite and a small 
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES2023-F7DF1E?logo=javascript&logoColor=black)
 ![Node.js](https://img.shields.io/badge/Node.js-%E2%89%A520.12-339933?logo=node.js&logoColor=white)
 ![Hono](https://img.shields.io/badge/API-Hono-E36002?logo=hono&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-19%20passing-96d43c)
+![Tests](https://img.shields.io/badge/tests-27%20passing-96d43c)
 ![Responsive](https://img.shields.io/badge/responsive-320px%E2%86%92desktop-8c3fd2)
 
 <br/>
@@ -120,7 +120,7 @@ Put your resume at `server/private/resume.pdf` (this folder is git-ignored).
 | `npm run build` | Production build into `dist/` |
 | `npm start` | Serve `dist/` + API in production mode (`NODE_ENV=production`) |
 | `npm run lint` | ESLint |
-| `npm test` | API, workflow & Vercel-entry tests (19) |
+| `npm test` | API, workflow & Vercel-entry tests (27) |
 | `npm run upload-resume` | Upload the private PDF to Upstash (for Vercel) |
 | `npm run check` | Lint + tests + build |
 
@@ -132,7 +132,7 @@ Server settings and secrets live in **`.env`** (local) or your host's **environm
 
 | Variable | Purpose |
 |---|---|
-| `PUBLIC_SITE_URL` | Public address of the site, used to build links in emails (e.g. `https://your-site.vercel.app`) |
+| `PUBLIC_SITE_URL` | Public `https://` address of the site, used to build links in emails (e.g. `https://your-site.vercel.app`). Localhost is refused in production; on Vercel it defaults to the project's production domain |
 | `TOKEN_SECRET` | ≥ 32 random characters — signs review / download links |
 | `ADMIN_PASSCODE` | ≥ 12 characters — required to approve or reject |
 | `NOTIFY_EMAIL` | Private inbox for contact messages and resume requests |
@@ -144,7 +144,7 @@ Server settings and secrets live in **`.env`** (local) or your host's **environm
 | `RESUME_PDF_PATH` · `DATA_DIR` | Private PDF location and request storage |
 | `REVIEW_LINK_TTL_HOURS` · `DOWNLOAD_LINK_TTL_HOURS` · `MAX_DOWNLOADS` · `RETENTION_DAYS` | Workflow limits |
 
-See [`.env.example`](.env.example) for every option with comments. In production the server refuses to start if a secret is missing or weak.
+See [`.env.example`](.env.example) for every option with comments. `GET /api/health` shows which features are ready and names any missing variables (never their values). In production the server refuses to start if a secret is missing or weak.
 
 ## 📁 Project structure
 
